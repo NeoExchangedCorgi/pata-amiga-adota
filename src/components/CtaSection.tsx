@@ -3,6 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const CtaSection = () => {
+  const scrollToDonation = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const footer = document.getElementById('doar');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="bg-paraiso-yellow py-16">
       <div className="container mx-auto px-4 text-center">
@@ -37,7 +45,10 @@ const CtaSection = () => {
             <p className="text-gray-700 mb-4">
               Contribua financeiramente para mantermos nosso trabalho de resgate e cuidados.
             </p>
-            <Button className="bg-paraiso-blue hover:bg-blue-800">
+            <Button 
+              className="bg-paraiso-blue hover:bg-blue-800"
+              onClick={scrollToDonation}
+            >
               Fazer Doação
             </Button>
           </div>

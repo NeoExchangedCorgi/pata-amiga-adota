@@ -4,7 +4,7 @@ import { Facebook, Instagram, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-paraiso-blue text-white">
+    <footer id="doar" className="bg-paraiso-blue text-white">
       <div className="container mx-auto py-8 px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -82,7 +82,14 @@ const Footer = () => {
             </ul>
             <div className="mt-4">
               <h4 className="font-bold mb-2">Faça uma doação pelo PIX</h4>
-              <p className="text-sm">Chave: 21976090612</p>
+              <p className="text-sm mb-2">Chave: 21976090612</p>
+              <div className="bg-white p-2 rounded-lg inline-block">
+                <img 
+                  src="/lovable-uploads/f7ba79c2-fa0c-43d8-ab7c-5d8342ed0ecc.png" 
+                  alt="QR Code PIX" 
+                  className="w-24 h-24"
+                />
+              </div>
             </div>
           </div>
         </div>

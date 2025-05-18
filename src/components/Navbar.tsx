@@ -7,6 +7,15 @@ import { Menu, X } from "lucide-react";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const scrollToDonation = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const footer = document.getElementById('doar');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -47,7 +56,10 @@ const Navbar = () => {
           <Link to="/about" className="font-medium hover:text-paraiso-blue transition-colors">
             Sobre Nós
           </Link>
-          <Button className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors">
+          <Button 
+            className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors"
+            onClick={scrollToDonation}
+          >
             Doar
           </Button>
         </div>
@@ -92,7 +104,10 @@ const Navbar = () => {
             >
               Sobre Nós
             </Link>
-            <Button className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors w-full">
+            <Button 
+              className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors w-full"
+              onClick={scrollToDonation}
+            >
               Doar
             </Button>
           </div>

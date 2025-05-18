@@ -4,6 +4,14 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 
 const About = () => {
+  const scrollToDonation = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const footer = document.getElementById('doar');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="bg-paraiso-lightblue py-16">
@@ -162,7 +170,12 @@ const About = () => {
                 <Link to="/volunteer">
                   <Button className="w-full bg-paraiso-blue">Quero Ser Voluntário</Button>
                 </Link>
-                <Button className="w-full bg-paraiso-blue">Fazer uma Doação</Button>
+                <Button 
+                  className="w-full bg-paraiso-blue"
+                  onClick={scrollToDonation}
+                >
+                  Fazer uma Doação
+                </Button>
               </div>
             </div>
           </div>
