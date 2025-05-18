@@ -65,7 +65,7 @@ const AnimalCatalog = () => {
                   <SelectValue placeholder="Todas" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todas</SelectItem>
+                  <SelectItem value="all">Todas</SelectItem>
                   <SelectItem value="dog">Cães</SelectItem>
                   <SelectItem value="cat">Gatos</SelectItem>
                   <SelectItem value="horse">Cavalos</SelectItem>
@@ -83,7 +83,7 @@ const AnimalCatalog = () => {
                   <SelectValue placeholder="Todos" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="male">Macho</SelectItem>
                   <SelectItem value="female">Fêmea</SelectItem>
                 </SelectContent>
@@ -99,7 +99,7 @@ const AnimalCatalog = () => {
                   <SelectValue placeholder="Todos" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos</SelectItem>
+                  <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="available">Disponível</SelectItem>
                   <SelectItem value="pending">Em processo</SelectItem>
                   <SelectItem value="adopted">Adotado</SelectItem>
