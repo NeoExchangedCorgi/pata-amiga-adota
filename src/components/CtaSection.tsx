@@ -63,7 +63,7 @@ const CtaSection = () => {
             <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-md mb-4 md:mb-0">
               <p className="font-medium dark:text-white">Chave PIX: 21976090612</p>
             </div>
-            <div className="bg-white dark:bg-white p-2 rounded-lg inline-block">
+            <div className="bg-white dark:bg-gray-900 p-2 rounded-lg inline-block">
               <img 
                 src="/lovable-uploads/f7ba79c2-fa0c-43d8-ab7c-5d8342ed0ecc.png" 
                 alt="QR Code PIX" 
