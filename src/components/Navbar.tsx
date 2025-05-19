@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from './ThemeToggle';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white dark:bg-paraiso-blue shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <img 
@@ -25,35 +26,39 @@ const Navbar = () => {
             alt="Paraíso dos Focinhos" 
             className="h-14 w-14 mr-3"
           />
-          <span className="font-bold text-xl text-paraiso-blue hidden sm:block">Paraíso dos Focinhos</span>
+          <span className="font-bold text-xl text-paraiso-blue dark:text-white hidden sm:block">Paraíso dos Focinhos</span>
         </Link>
 
-        {/* Mobile menu button */}
-        <div className="md:hidden">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X /> : <Menu />}
-          </Button>
+        {/* Mobile menu button and theme toggle */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <div className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-paraiso-blue dark:text-white"
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
         </div>
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="font-medium hover:text-paraiso-blue transition-colors">
+          <Link to="/" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
             Início
           </Link>
-          <Link to="/animals" className="font-medium hover:text-paraiso-blue transition-colors">
+          <Link to="/animals" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
             Adotar
           </Link>
-          <Link to="/report" className="font-medium hover:text-paraiso-blue transition-colors">
+          <Link to="/report" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
             Encontrei um Animal
           </Link>
-          <Link to="/volunteer" className="font-medium hover:text-paraiso-blue transition-colors">
+          <Link to="/volunteer" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
             Seja Voluntário
           </Link>
-          <Link to="/about" className="font-medium hover:text-paraiso-blue transition-colors">
+          <Link to="/about" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
             Sobre Nós
           </Link>
           <Button 
@@ -67,39 +72,39 @@ const Navbar = () => {
 
       {/* Mobile menu panel */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg">
+        <div className="md:hidden bg-white dark:bg-paraiso-blue shadow-lg">
           <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
             <Link 
               to="/" 
-              className="py-2 font-medium hover:text-paraiso-blue transition-colors"
+              className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Início
             </Link>
             <Link 
               to="/animals" 
-              className="py-2 font-medium hover:text-paraiso-blue transition-colors"
+              className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Adotar
             </Link>
             <Link 
               to="/report" 
-              className="py-2 font-medium hover:text-paraiso-blue transition-colors"
+              className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Encontrei um Animal
             </Link>
             <Link 
               to="/volunteer" 
-              className="py-2 font-medium hover:text-paraiso-blue transition-colors"
+              className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Seja Voluntário
             </Link>
             <Link 
               to="/about" 
-              className="py-2 font-medium hover:text-paraiso-blue transition-colors"
+              className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Sobre Nós
