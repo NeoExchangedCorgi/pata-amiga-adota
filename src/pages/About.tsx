@@ -1,19 +1,17 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
-
 const About = () => {
   const scrollToDonation = (e: React.MouseEvent) => {
     e.preventDefault();
     const footer = document.getElementById('doar');
     if (footer) {
-      footer.scrollIntoView({ behavior: 'smooth' });
+      footer.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  return (
-    <div className="bg-gray-50 dark:bg-black min-h-screen">
+  return <div className="bg-gray-50 dark:bg-black min-h-screen">
       <div className="bg-paraiso-lightblue dark:bg-black py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold text-paraiso-blue dark:text-white mb-4">Sobre o Paraíso dos Focinhos</h1>
@@ -44,11 +42,7 @@ const About = () => {
             </p>
           </div>
           <div className="flex items-center justify-center">
-            <img 
-              src="https://images.unsplash.com/photo-1592754862816-1a21a4ea2281?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGRvZyUyMHNoZWx0ZXJ8ZW58MHx8MHx8fDA%3D" 
-              alt="Abrigo do Paraíso dos Focinhos" 
-              className="rounded-lg shadow-lg"
-            />
+            <img src="https://images.unsplash.com/photo-1592754862816-1a21a4ea2281?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGRvZyUyMHNoZWx0ZXJ8ZW58MHx8MHx8fDA%3D" alt="Abrigo do Paraíso dos Focinhos" className="rounded-lg shadow-lg" />
           </div>
         </div>
 
@@ -90,11 +84,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
           <div className="flex items-center justify-center order-2 md:order-1">
-            <img 
-              src="/lovable-uploads/20b34c6a-7471-4560-828a-56d8c7b2cf60.png" 
-              alt="Hanri Soares - Presidente da ONG" 
-              className="rounded-lg shadow-lg"
-            />
+            <img src="/lovable-uploads/20b34c6a-7471-4560-828a-56d8c7b2cf60.png" alt="Hanri Soares - Presidente da ONG" className="rounded-lg shadow-lg" />
           </div>
           <div className="order-1 md:order-2">
             <h2 className="text-3xl font-bold text-paraiso-blue dark:text-white mb-6">Nossa Presidente - Hanri Soares</h2>
@@ -139,20 +129,10 @@ const About = () => {
               <div className="mt-6">
                 <h4 className="font-bold mb-2 dark:text-white">Redes Sociais</h4>
                 <div className="flex space-x-4">
-                  <a 
-                    href="https://www.facebook.com/ongparaisodosfocinhos/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-paraiso-blue dark:text-white hover:text-blue-800 dark:hover:text-gray-300 transition-colors"
-                  >
+                  <a href="https://www.facebook.com/ongparaisodosfocinhos/" target="_blank" rel="noopener noreferrer" className="text-paraiso-blue dark:text-white hover:text-blue-800 dark:hover:text-gray-300 transition-colors">
                     <Facebook />
                   </a>
-                  <a 
-                    href="https://www.instagram.com/ongparaisodosfocinhos/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-paraiso-blue dark:text-white hover:text-blue-800 dark:hover:text-gray-300 transition-colors"
-                  >
+                  <a href="https://www.instagram.com/ongparaisodosfocinhos/" target="_blank" rel="noopener noreferrer" className="text-paraiso-blue dark:text-white hover:text-blue-800 dark:hover:text-gray-300 transition-colors">
                     <Instagram />
                   </a>
                 </div>
@@ -160,20 +140,17 @@ const About = () => {
             </div>
             <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow">
               <h3 className="text-xl font-bold mb-4 text-center dark:text-white">Faça Parte da Nossa Missão</h3>
-              <div className="space-y-4">
+              <div className="space-y-4 bg-transparent">
                 <Link to="/animals">
                   <Button className="w-full bg-paraiso-blue dark:bg-white dark:text-black">Quero Adotar</Button>
                 </Link>
                 <Link to="/report">
-                  <Button className="w-full bg-paraiso-blue dark:bg-white dark:text-black">Encontrei um Animal</Button>
+                  <Button className="w-full bg-paraiso-blue text-white my-[25px]">Encontrei um Animal</Button>
                 </Link>
                 <Link to="/volunteer">
-                  <Button className="w-full bg-paraiso-blue dark:bg-white dark:text-black">Quero Ser Voluntário</Button>
+                  <Button className="w-full bg-paraiso-blue text-white my-[2px]">Quero Ser Voluntário</Button>
                 </Link>
-                <Button 
-                  className="w-full bg-paraiso-blue dark:bg-white dark:text-black"
-                  onClick={scrollToDonation}
-                >
+                <Button className="w-full bg-paraiso-blue dark:bg-white dark:text-black" onClick={scrollToDonation}>
                   Fazer uma Doação
                 </Button>
               </div>
@@ -181,8 +158,6 @@ const About = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default About;
