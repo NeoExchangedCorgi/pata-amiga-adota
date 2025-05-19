@@ -32,7 +32,7 @@ const Hero = () => {
               <img src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fGNhdHxlbnwwfHwwfHx8MA%3D%3D" alt="Gato resgatado" className="rounded-lg w-48 h-auto" />
             </div>
             <div className="absolute -top-4 -right-4 bg-white dark:bg-gray-800 p-2 rounded-xl shadow-lg transform rotate-6 hidden md:block">
-              <img src="https://images.unsplash.com/photo-1598839253678-be340c02f9c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTF8fGhvcnNlfGVufDB8fDB8fHww" alt="Cavalo resgatado" className="rounded-lg w-32 h-auto" />
+              <img alt="Cavalo resgatado" className="rounded-lg w-32 h-auto" src="/lovable-uploads/183de644-9ded-4a1b-8a0f-61f698c7ca4e.png" />
             </div>
           </div>
         </div>
