@@ -46,41 +46,41 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 80%;
     
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -94,13 +94,53 @@
     @apply bg-background text-foreground transition-colors duration-300;
   }
   
-  /* Garante que elementos com bg-white ou bg-light também mudem no dark mode */
-  .bg-white.dark {
-    @apply bg-gray-900;
+  /* Regras para o modo escuro */
+  .dark {
+    color-scheme: dark;
   }
   
-  .bg-gray-50.dark, .bg-gray-100.dark {
-    @apply bg-gray-800;
+  .dark * {
+    --tw-bg-opacity: 1;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Garantir que elementos com fundo branco mudem para preto no dark mode */
+  .bg-white.dark,
+  .dark .bg-white {
+    background-color: #000000 !important;
+  }
+  
+  .bg-gray-50.dark,
+  .dark .bg-gray-50,
+  .bg-gray-100.dark,
+  .dark .bg-gray-100,
+  .dark .bg-gray-200 {
+    background-color: #0D0D0D !important;
+  }
+  
+  .dark .bg-paraiso-lightyellow,
+  .dark .bg-paraiso-lightblue,
+  .dark .from-paraiso-lightyellow {
+    background-color: #000000 !important;
+    background-image: none !important;
+  }
+  
+  /* Garantir que elementos com texto escuro mudem para branco no dark mode */
+  .dark .text-gray-900,
+  .dark .text-gray-800,
+  .dark .text-gray-700,
+  .dark .text-black,
+  .dark .text-paraiso-blue {
+    color: #FFFFFF !important;
+  }
+  
+  /* Corrigir botões no dark mode */
+  .dark .bg-paraiso-yellow {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  
+  .dark .border-paraiso-blue {
+    border-color: #FFFFFF !important;
   }
 }
-
