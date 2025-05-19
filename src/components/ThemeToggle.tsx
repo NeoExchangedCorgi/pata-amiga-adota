@@ -33,7 +33,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="rounded-full bg-transparent dark:bg-transparent"
+      className="rounded-full bg-transparent dark:bg-transparent text-paraiso-blue dark:text-white"
       onClick={toggleTheme}
       aria-label="Alternar tema"
     >

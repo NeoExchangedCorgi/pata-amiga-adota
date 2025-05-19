@@ -105,24 +105,34 @@
   }
   
   /* Garantir que elementos com fundo branco mudem para preto no dark mode */
+  .dark .bg-white,
   .bg-white.dark,
-  .dark .bg-white {
+  .dark .bg-paraiso-lightblue,
+  .dark .bg-paraiso-lightyellow {
     background-color: #000000 !important;
   }
   
-  .bg-gray-50.dark,
   .dark .bg-gray-50,
-  .bg-gray-100.dark,
   .dark .bg-gray-100,
   .dark .bg-gray-200 {
     background-color: #0D0D0D !important;
   }
   
-  .dark .bg-paraiso-lightyellow,
-  .dark .bg-paraiso-lightblue,
-  .dark .from-paraiso-lightyellow {
+  .dark .bg-paraiso-yellow {
     background-color: #000000 !important;
-    background-image: none !important;
+  }
+
+  /* Garantir que os botões no dark mode sejam brancos com texto preto */
+  .dark .bg-paraiso-blue,
+  .dark .bg-paraiso-yellow {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  /* Garantir que os botões no hover sejam cinza claro */
+  .dark .bg-paraiso-blue:hover,
+  .dark .bg-paraiso-yellow:hover {
+    background-color: #e5e5e5 !important;
   }
   
   /* Garantir que elementos com texto escuro mudem para branco no dark mode */
@@ -133,14 +143,9 @@
   .dark .text-paraiso-blue {
     color: #FFFFFF !important;
   }
-  
-  /* Corrigir botões no dark mode */
-  .dark .bg-paraiso-yellow {
-    background-color: #FFFFFF !important;
-    color: #000000 !important;
-  }
-  
+
+  /* Correção para o border dos elementos escuros */
   .dark .border-paraiso-blue {
-    border-color: #FFFFFF !important;
+    border-color: #444444 !important;
   }
 }

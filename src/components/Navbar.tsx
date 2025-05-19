@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from './ThemeToggle';
+import { useTheme } from 'next-themes';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
 
   const scrollToDonation = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -18,11 +20,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white dark:bg-paraiso-blue shadow-md sticky top-0 z-50">
+    <nav className="bg-white dark:bg-black shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <img 
-            src="/lovable-uploads/eb8f6f19-0b05-45c1-86d7-d62b41fb48c4.png" 
+            src={theme === 'dark' 
+              ? "/lovable-uploads/8932c366-3257-4c7b-8bb8-b531e17e6171.png" 
+              : "/lovable-uploads/eb8f6f19-0b05-45c1-86d7-d62b41fb48c4.png"} 
             alt="Paraíso dos Focinhos" 
             className="h-14 w-14 mr-3"
           />
@@ -62,7 +66,7 @@ const Navbar = () => {
             Sobre Nós
           </Link>
           <Button 
-            className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors"
+            className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors"
             onClick={scrollToDonation}
           >
             Doar
@@ -72,7 +76,7 @@ const Navbar = () => {
 
       {/* Mobile menu panel */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-paraiso-blue shadow-lg">
+        <div className="md:hidden bg-white dark:bg-black shadow-lg">
           <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
             <Link 
               to="/" 
@@ -110,7 +114,7 @@ const Navbar = () => {
               Sobre Nós
             </Link>
             <Button 
-              className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white transition-colors w-full"
+              className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors w-full"
               onClick={scrollToDonation}
             >
               Doar

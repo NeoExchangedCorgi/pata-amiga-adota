@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white dark:bg-black py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-paraiso-blue mb-2">Sobre o Paraíso dos Focinhos</h2>
-          <p className="text-gray-600">Uma ONG comprometida com o resgate e cuidado de animais desde 2011</p>
+          <h2 className="text-3xl font-bold text-paraiso-blue dark:text-white mb-2">Sobre o Paraíso dos Focinhos</h2>
+          <p className="text-gray-600 dark:text-gray-400">Uma ONG comprometida com o resgate e cuidado de animais desde 2011</p>
         </div>
         
         <div className="flex flex-col md:flex-row items-center gap-12">
@@ -21,24 +21,24 @@ const AboutSection = () => {
           </div>
           
           <div className="md:w-1/2">
-            <h3 className="text-2xl font-bold mb-4">Nossa Missão</h3>
-            <p className="mb-4 text-gray-700">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Nossa Missão</h3>
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
               O Paraíso dos Focinhos é uma organização sem fins lucrativos, localizada no Rio de Janeiro,
               criada em 2011 para resgatar, proteger, tratar e cuidar dos animais de rua até que eles 
               consigam tutores que os adotem.
             </p>
-            <p className="mb-4 text-gray-700">
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
               Atualmente abrigamos mais de 500 animais, entre cães, gatos, cavalos e até mesmo um porco.
               Nossa associação possui três sítios, cada um com aproximadamente 7 mil m².
             </p>
-            <p className="mb-6 text-gray-700">
+            <p className="mb-6 text-gray-700 dark:text-gray-300">
               Nos dedicamos a proporcionar o melhor ambiente possível com espaços amplos, 
               cuidados médicos e muito amor para todos os animais.
             </p>
             
             <div className="mb-6">
-              <h4 className="font-bold mb-2">Nossa estrutura inclui:</h4>
-              <ul className="list-disc pl-5 space-y-1 text-gray-700">
+              <h4 className="font-bold mb-2 text-gray-900 dark:text-white">Nossa estrutura inclui:</h4>
+              <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
                 <li>Quatro gatis espaçosos</li>
                 <li>120 baias amplas com até 50 m²</li>
                 <li>Ventiladores em todas as áreas</li>
@@ -48,7 +48,7 @@ const AboutSection = () => {
               </ul>
             </div>
             
-            <Button asChild className="bg-paraiso-blue hover:bg-blue-800">
+            <Button asChild className="bg-paraiso-blue hover:bg-blue-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
               <Link to="/about">Saiba Mais Sobre Nós</Link>
             </Button>
           </div>
