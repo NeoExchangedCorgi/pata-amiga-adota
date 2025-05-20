@@ -152,17 +152,64 @@
     border-color: #444444 !important;
   }
   
-  /* Nova regra para garantir que os ícones fiquem visíveis no modo escuro */
+  /* Ícones no modo escuro */
   .dark .lucide-menu,
   .dark .lucide-x,
   .dark .lucide-moon,
   .dark .lucide-sun {
-    color: #CCCCCC;
+    color: #000000 !important;
+    stroke: #000000 !important;
   }
   
-  /* Adicionar fundo azul escuro para os links no modo escuro quando hover */
-  .dark a:hover:not([class*="Button"]) {
+  /* Links específicos no dark mode devem ter fundo azul escuro */
+  .dark a:not([class*="Button"]):not(footer a) {
     background-color: #172554 !important;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Links no footer não devem ter fundo azul escuro */
+  .dark footer a {
+    background-color: transparent !important;
+    color: #F9D926 !important; /* Cor amarela do Paraíso dos Focinhos */
+  }
+  
+  /* Botões específicos mencionados pelo cliente para terem fundo azul escuro */
+  .dark .bg-paraiso-blue[class*="Button"],
+  .dark .bg-paraiso-yellow[class*="Button"],
+  .dark button.bg-paraiso-blue,
+  .dark button.bg-paraiso-yellow {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
+  }
+  
+  /* Botão "Limpar filtros" na tela Adotar */
+  .dark button.text-paraiso-blue {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  /* Botões de ação principais com fundo azul escuro no dark mode */
+  .dark [class*="Button"]:not(footer [class*="Button"]):not(.rounded-full) {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
+  }
+  
+  /* Exceção para botões no footer e botões de tema */
+  .dark footer [class*="Button"],
+  .dark .rounded-full {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  
+  /* Exceções para botões especiais */
+  .dark a[href="/animals"] [class*="Button"],
+  .dark a[href="/volunteer"] [class*="Button"],
+  .dark button:has(.text-white),
+  .dark [class*="Button"]:has(.text-white) {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
   }
 }
-

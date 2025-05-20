@@ -1,12 +1,11 @@
+
 import React, { useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
+
 export function ThemeToggle() {
-  const {
-    setTheme,
-    theme
-  } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   // Garantir que o tema seja aplicado imediatamente
   useEffect(() => {
@@ -17,6 +16,7 @@ export function ThemeToggle() {
       htmlElement.classList.remove('dark');
     }
   }, [theme]);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -28,9 +28,18 @@ export function ThemeToggle() {
       document.documentElement.classList.remove('dark');
     }
   };
-  return <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Alternar tema" className="rounded-full bg-transparent dark:bg-transparent text-paraiso-blue dark:text-gray-950 dark:hover:text-white dark:hover:bg-gray-800">
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0 dark:stroke-gray-300" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:stroke-gray-300" />
+
+  return (
+    <Button 
+      variant="ghost" 
+      size="icon" 
+      onClick={toggleTheme} 
+      aria-label="Alternar tema" 
+      className="rounded-full bg-transparent dark:bg-transparent text-paraiso-blue dark:text-black"
+    >
+      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:rotate-90 dark:scale-0 stroke-paraiso-blue dark:stroke-black" />
+      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 stroke-paraiso-blue dark:stroke-black" />
       <span className="sr-only">Alternar tema</span>
-    </Button>;
+    </Button>
+  );
 }
