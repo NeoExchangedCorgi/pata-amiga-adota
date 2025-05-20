@@ -151,4 +151,18 @@
   .dark .border-paraiso-blue {
     border-color: #444444 !important;
   }
+  
+  /* Nova regra para garantir que os ícones fiquem visíveis no modo escuro */
+  .dark .lucide-menu,
+  .dark .lucide-x,
+  .dark .lucide-moon,
+  .dark .lucide-sun {
+    color: #CCCCCC;
+  }
+  
+  /* Adicionar fundo azul escuro para os links no modo escuro quando hover */
+  .dark a:hover:not([class*="Button"]) {
+    background-color: #172554 !important;
+  }
 }
+

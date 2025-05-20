@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -30,27 +31,27 @@ const Navbar = () => {
         <div className="flex items-center gap-2 bg-transparent">
           <ThemeToggle />
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-paraiso-blue dark:text-white">
-              {isMenuOpen ? <X /> : <Menu />}
+            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-paraiso-blue dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800">
+              {isMenuOpen ? <X className="dark:stroke-gray-300 dark:hover:stroke-white" /> : <Menu className="dark:stroke-gray-300 dark:hover:stroke-white" />}
             </Button>
           </div>
         </div>
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
+          <Link to="/" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 py-1 rounded transition-colors">
             Início
           </Link>
-          <Link to="/animals" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
+          <Link to="/animals" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 py-1 rounded transition-colors">
             Adotar
           </Link>
-          <Link to="/report" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
+          <Link to="/report" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 py-1 rounded transition-colors">
             Encontrei um Animal
           </Link>
-          <Link to="/volunteer" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
+          <Link to="/volunteer" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 py-1 rounded transition-colors">
             Seja Voluntário
           </Link>
-          <Link to="/about" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors">
+          <Link to="/about" className="font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 py-1 rounded transition-colors">
             Sobre Nós
           </Link>
           <Button className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors" onClick={scrollToDonation}>
@@ -62,19 +63,19 @@ const Navbar = () => {
       {/* Mobile menu panel */}
       {isMenuOpen && <div className="md:hidden bg-white dark:bg-black shadow-lg">
           <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
-            <Link to="/" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 rounded transition-colors" onClick={() => setIsMenuOpen(false)}>
               Início
             </Link>
-            <Link to="/animals" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/animals" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 rounded transition-colors" onClick={() => setIsMenuOpen(false)}>
               Adotar
             </Link>
-            <Link to="/report" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/report" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 rounded transition-colors" onClick={() => setIsMenuOpen(false)}>
               Encontrei um Animal
             </Link>
-            <Link to="/volunteer" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/volunteer" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 rounded transition-colors" onClick={() => setIsMenuOpen(false)}>
               Seja Voluntário
             </Link>
-            <Link to="/about" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow transition-colors" onClick={() => setIsMenuOpen(false)}>
+            <Link to="/about" className="py-2 font-medium hover:text-paraiso-blue dark:text-white dark:hover:text-paraiso-yellow dark:hover:bg-gray-800 px-3 rounded transition-colors" onClick={() => setIsMenuOpen(false)}>
               Sobre Nós
             </Link>
             <Button className="bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white dark:bg-white dark:text-black dark:hover:bg-gray-200 transition-colors w-full" onClick={scrollToDonation}>
