@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
@@ -7,26 +7,8 @@ import { useTheme } from "next-themes";
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
 
-  // Garantir que o tema seja aplicado imediatamente
-  useEffect(() => {
-    const htmlElement = document.documentElement;
-    if (theme === 'dark') {
-      htmlElement.classList.add('dark');
-    } else {
-      htmlElement.classList.remove('dark');
-    }
-  }, [theme]);
-
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-
-    // Aplicar classe imediatamente para evitar atraso na mudança visual
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
