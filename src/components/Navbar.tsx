@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <img src={theme === 'dark' ? "/lovable-uploads/8932c366-3257-4c7b-8bb8-b531e17e6171.png" : "/lovable-uploads/eb8f6f19-0b05-45c1-86d7-d62b41fb48c4.png"} alt="Paraíso dos Focinhos" className="h-14 w-14 mr-3" />
-          <span className="font-bold text-xl text-paraiso-blue dark:text-white hidden sm:block">Paraíso dos Focinhos</span>
+          <span className="font-bold text-paraiso-blue dark:text-white hidden sm:block text-lg">Paraíso dos Focinhos</span>
         </Link>
 
         {/* Mobile menu button and theme toggle */}
