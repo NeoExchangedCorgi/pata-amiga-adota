@@ -1,0 +1,49 @@
+
+@layer base {
+  /* Links no dark mode sem fundo azul escuro */
+  .dark a:not([class*="Button"]):not(footer a) {
+    background-color: transparent !important;
+    color: #F9D926 !important; /* Cor amarela do Paraíso dos Focinhos */
+  }
+  
+  /* Links no footer não devem ter fundo azul escuro */
+  .dark footer a {
+    background-color: transparent !important;
+    color: #F9D926 !important; /* Cor amarela do Paraíso dos Focinhos */
+  }
+  
+  /* Botões específicos mencionados pelo cliente para terem cor amarela no texto */
+  .dark .bg-paraiso-blue[class*="Button"],
+  .dark .bg-paraiso-yellow[class*="Button"],
+  .dark button.bg-paraiso-blue,
+  .dark button.bg-paraiso-yellow {
+    color: #F9D926 !important;
+  }
+  
+  /* Exceções para os botões "Ver detalhes" e "Limpar filtros" */
+  .dark a.text-paraiso-blue:has(text:contains("Ver detalhes")),
+  .dark .text-paraiso-blue:has(text:contains("Ver detalhes")) {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
+  }
+  
+  /* Botão "Limpar filtros" na tela Adotar */
+  .dark button.text-paraiso-blue:has(text:contains("Limpar filtros")) {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  /* Todos os demais botões de ação com texto amarelo no dark mode */
+  .dark [class*="Button"]:not(footer [class*="Button"]):not(.rounded-full) {
+    color: #F9D926 !important;
+  }
+  
+  /* Exceção para botões no footer e botões de tema */
+  .dark footer [class*="Button"],
+  .dark .rounded-full {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+}
