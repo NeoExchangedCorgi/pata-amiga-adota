@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
-
 const About = () => {
   const scrollToDonation = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -143,13 +142,13 @@ const About = () => {
               <h3 className="text-xl font-bold mb-4 text-center dark:text-white">Faça Parte da Nossa Missão</h3>
               <div className="space-y-4 bg-transparent">
                 <Link to="/animals">
-                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800">Quero Adotar</Button>
+                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 py-0 my-0">Quero Adotar</Button>
                 </Link>
                 <Link to="/report">
-                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800">Encontrei um Animal</Button>
+                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 my-[22px]">Encontrei um Animal</Button>
                 </Link>
                 <Link to="/volunteer">
-                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800">Quero Ser Voluntário</Button>
+                  <Button className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800 my-px">Quero Ser Voluntário</Button>
                 </Link>
                 <Button onClick={scrollToDonation} className="w-full bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800">
                   Fazer uma Doação
