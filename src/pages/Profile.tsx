@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -80,24 +80,32 @@ const Profile = () => {
           });
         }
 
-        // Fetch adoption applications with animal info
+        // Fetch adoption applications
         const { data: adoptionsData, error: adoptionsError } = await supabase
           .from('adoption_applications')
-          .select(`
-            id, 
-            animal_id,
-            status,
-            created_at,
-            animals:animal_id (
-              name,
-              species
-            )
-          `)
+          .select('id, animal_id, status, created_at')
           .eq('user_id', user!.id)
           .order('created_at', { ascending: false });
 
         if (adoptionsError) throw adoptionsError;
-        setAdoptions(adoptionsData || []);
+        
+        // For each adoption, fetch the animal details separately
+        const adoptionsWithAnimals = await Promise.all(
+          (adoptionsData || []).map(async (adoption) => {
+            const { data: animalData } = await supabase
+              .from('animals')
+              .select('name, species')
+              .eq('id', adoption.animal_id)
+              .single();
+              
+            return {
+              ...adoption,
+              animal: animalData || { name: 'Animal não encontrado', species: '' }
+            };
+          })
+        );
+        
+        setAdoptions(adoptionsWithAnimals);
 
         // Fetch animal reports
         const { data: reportsData, error: reportsError } = await supabase

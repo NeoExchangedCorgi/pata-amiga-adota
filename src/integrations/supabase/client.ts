@@ -16,3 +16,22 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
   }
 });
+
+// Helper function to convert Json to string[]
+export const jsonToStringArray = (json: any): string[] => {
+  if (Array.isArray(json)) {
+    return json.map(item => String(item));
+  }
+  if (typeof json === 'string') {
+    try {
+      const parsed = JSON.parse(json);
+      if (Array.isArray(parsed)) {
+        return parsed.map(item => String(item));
+      }
+    } catch (e) {
+      // If parsing fails, treat it as a single string
+    }
+  }
+  // Fallback: return as a single item array
+  return [String(json)];
+};

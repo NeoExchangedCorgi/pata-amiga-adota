@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Heart, ArrowLeft, MapPin, Mail, Phone } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, jsonToStringArray } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface Animal {
@@ -72,7 +72,7 @@ const AnimalDetails = () => {
         // Convert JSONB photos to string array
         const formattedData = {
           ...data,
-          photos: Array.isArray(data.photos) ? data.photos : [data.photos]
+          photos: jsonToStringArray(data.photos)
         };
 
         setAnimal(formattedData);

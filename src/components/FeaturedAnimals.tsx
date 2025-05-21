@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import AnimalCard from "./AnimalCard";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, jsonToStringArray } from "@/integrations/supabase/client";
 
 interface Animal {
   id: string;
@@ -40,7 +40,7 @@ const FeaturedAnimals = () => {
         // Convert JSONB photos to string array
         const formattedData = data.map(animal => ({
           ...animal,
-          photos: Array.isArray(animal.photos) ? animal.photos : [animal.photos]
+          photos: jsonToStringArray(animal.photos)
         }));
 
         setFeaturedAnimals(formattedData);

@@ -4,7 +4,7 @@ import AnimalCard from '@/components/AnimalCard';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, jsonToStringArray } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface Animal {
@@ -56,7 +56,7 @@ const AnimalCatalog = () => {
         // Convert JSONB photos to string array
         const formattedData = data.map(animal => ({
           ...animal,
-          photos: Array.isArray(animal.photos) ? animal.photos : [animal.photos]
+          photos: jsonToStringArray(animal.photos)
         }));
 
         setAnimals(formattedData);
