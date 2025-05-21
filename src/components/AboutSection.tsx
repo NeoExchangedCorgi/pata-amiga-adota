@@ -48,7 +48,7 @@ const AboutSection = () => {
               </ul>
             </div>
             
-            <Button asChild className="bg-paraiso-blue hover:bg-blue-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+            <Button asChild className="bg-paraiso-blue hover:bg-blue-800 text-white dark:bg-blue-900 dark:text-white dark:hover:bg-blue-800">
               <Link to="/about">Saiba Mais Sobre Nós</Link>
             </Button>
           </div>
