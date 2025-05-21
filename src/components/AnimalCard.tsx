@@ -1,9 +1,21 @@
 
 import { Link } from 'react-router-dom';
-import { Animal } from '@/data/animals';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
+
+interface Animal {
+  id: string;
+  name: string;
+  species: string;
+  sex: string;
+  age: string;
+  size: string;
+  description: string;
+  photos: string[];
+  location: string;
+  status: string;
+}
 
 interface AnimalCardProps {
   animal: Animal;
@@ -13,13 +25,13 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100';
       case 'adopted':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100';
       default:
-        return 'bg-gray-100';
+        return 'bg-gray-100 dark:bg-gray-800';
     }
   };
 
@@ -50,7 +62,7 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
   };
 
   return (
-    <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
+    <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-gray-700">
       <div className="relative h-48 overflow-hidden">
         <img
           src={animal.photos[0]}
@@ -65,18 +77,18 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal }) => {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-center mb-2">
-          <h3 className="font-bold text-lg">{animal.name}</h3>
+          <h3 className="font-bold text-lg dark:text-white">{animal.name}</h3>
           <span title={animal.species}>{getSpeciesIcon(animal.species)}</span>
         </div>
-        <div className="text-sm text-gray-500 mb-2">
+        <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
           {animal.age} • {animal.sex === 'male' ? 'Macho' : 'Fêmea'} • {animal.location}
         </div>
-        <p className="line-clamp-2 text-sm text-gray-700">{animal.description}</p>
+        <p className="line-clamp-2 text-sm text-gray-700 dark:text-gray-300">{animal.description}</p>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex justify-between items-center">
         <Link 
           to={`/animals/${animal.id}`}
-          className="text-paraiso-blue hover:underline font-medium text-sm"
+          className="text-paraiso-blue dark:text-paraiso-yellow hover:underline font-medium text-sm"
         >
           Ver detalhes
         </Link>

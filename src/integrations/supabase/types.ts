@@ -9,7 +9,246 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      adoption_applications: {
+        Row: {
+          animal_id: string
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          animal_id: string
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          animal_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "adoption_applications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      animal_reports: {
+        Row: {
+          age: string | null
+          animal_name: string | null
+          can_keep_temporarily: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          sex: string | null
+          size: string | null
+          species: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          age?: string | null
+          animal_name?: string | null
+          can_keep_temporarily?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          sex?: string | null
+          size?: string | null
+          species: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          age?: string | null
+          animal_name?: string | null
+          can_keep_temporarily?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          sex?: string | null
+          size?: string | null
+          species?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "animal_reports_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      animals: {
+        Row: {
+          age: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          name: string
+          photos: Json
+          sex: string
+          size: string
+          species: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          age: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          name: string
+          photos: Json
+          sex: string
+          size: string
+          species: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          age?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          name?: string
+          photos?: Json
+          sex?: string
+          size?: string
+          species?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      volunteer_applications: {
+        Row: {
+          age: string
+          availability: string
+          created_at: string
+          email: string
+          experience: string
+          id: string
+          name: string
+          phone: string
+          reason: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          age: string
+          availability: string
+          created_at?: string
+          email: string
+          experience: string
+          id?: string
+          name: string
+          phone: string
+          reason: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          age?: string
+          availability?: string
+          created_at?: string
+          email?: string
+          experience?: string
+          id?: string
+          name?: string
+          phone?: string
+          reason?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "volunteer_applications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
