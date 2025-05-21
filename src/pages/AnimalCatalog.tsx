@@ -115,7 +115,7 @@ const AnimalCatalog = () => {
                   status: '',
                   search: ''
                 })}
-                className="text-paraiso-blue hover:text-blue-800 hover:underline"
+                className="text-paraiso-blue hover:text-blue-800 hover:underline dark:bg-black dark:text-yellow-400 dark:hover:text-yellow-300 px-3 py-2 rounded"
               >
                 Limpar filtros
               </button>

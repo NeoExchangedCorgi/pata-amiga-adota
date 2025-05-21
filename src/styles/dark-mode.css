@@ -66,21 +66,23 @@
     background-color: #000000 !important;
   }
 
-  /* Garantir que os botões no dark mode sejam brancos com texto preto */
+  /* Botões no modo escuro devem ter fundo azul escuro e texto branco */
   .dark .bg-paraiso-blue[class*="Button"],
   .dark .bg-paraiso-yellow[class*="Button"],
   .dark button,
-  .dark [class*="Button"] {
-    background-color: #FFFFFF !important;
-    color: #000000 !important;
+  .dark [class*="Button"],
+  .dark a[class*="Button"] {
+    background-color: #172554 !important;
+    color: #FFFFFF !important;
   }
 
-  /* Garantir que os botões no hover sejam cinza claro */
+  /* Garantir que os botões no hover sejam um pouco mais claros */
   .dark .bg-paraiso-blue[class*="Button"]:hover,
   .dark .bg-paraiso-yellow[class*="Button"]:hover,
   .dark button:hover,
-  .dark [class*="Button"]:hover {
-    background-color: #e5e5e5 !important;
+  .dark [class*="Button"]:hover,
+  .dark a[class*="Button"]:hover {
+    background-color: #1e3a8a !important;
   }
   
   /* Garantir que elementos com texto escuro mudem para branco no dark mode */

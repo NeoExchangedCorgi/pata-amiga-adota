@@ -17,7 +17,8 @@
   .dark .bg-paraiso-yellow[class*="Button"],
   .dark button.bg-paraiso-blue,
   .dark button.bg-paraiso-yellow {
-    color: #F9D926 !important;
+    color: #FFFFFF !important;
+    background-color: #172554 !important;
   }
   
   /* Exceções para os botões "Ver detalhes" e "Limpar filtros" */
@@ -29,15 +30,16 @@
   
   /* Botão "Limpar filtros" na tela Adotar */
   .dark button.text-paraiso-blue:has(text:contains("Limpar filtros")) {
-    background-color: #172554 !important;
-    color: #FFFFFF !important;
+    background-color: #000000 !important;
+    color: #F9D926 !important;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
   }
 
-  /* Todos os demais botões de ação com texto amarelo no dark mode */
+  /* Todos os demais botões de ação com texto branco no dark mode */
   .dark [class*="Button"]:not(footer [class*="Button"]):not(.rounded-full) {
-    color: #F9D926 !important;
+    color: #FFFFFF !important;
+    background-color: #172554 !important;
   }
   
   /* Exceção para botões no footer e botões de tema */
