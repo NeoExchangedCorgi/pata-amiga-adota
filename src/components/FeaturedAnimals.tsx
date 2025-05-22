@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import AnimalCard from "./AnimalCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Animal } from "@/types/database.types";
 
 // Helper para converter JSONB para string[]
 const parsePhotos = (photos: any): string[] => {
@@ -15,7 +16,7 @@ const parsePhotos = (photos: any): string[] => {
 };
 
 const FeaturedAnimals = () => {
-  const [featuredAnimals, setFeaturedAnimals] = useState<any[]>([]);
+  const [featuredAnimals, setFeaturedAnimals] = useState<Animal[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import AdoptionForm from '@/components/AdoptionForm';
-import type { Animal } from '@/data/animals';
+import { Animal } from '@/types/database.types';
 
 // Helper para converter JSONB para string[]
 const parsePhotos = (photos: any): string[] => {
