@@ -1,48 +1,135 @@
 
-import { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { animals } from '@/data/animals';
-import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { 
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Heart, ArrowLeft, MapPin, Mail, Phone } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import AdoptionForm from '@/components/AdoptionForm';
+import type { Animal } from '@/data/animals';
+
+// Helper para converter JSONB para string[]
+const parsePhotos = (photos: any): string[] => {
+  if (Array.isArray(photos)) {
+    return photos.map(photo => String(photo));
+  }
+  return [];
+};
 
 const AnimalDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [animal, setAnimal] = useState<Animal | null>(null);
+  const [loading, setLoading] = useState(true);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
+  const [activeTab, setActiveTab] = useState("details");
+  const [showAdoptionForm, setShowAdoptionForm] = useState(false);
 
-  // Find the animal by ID
-  const animal = animals.find(a => a.id === id);
+  useEffect(() => {
+    const fetchAnimalDetails = async () => {
+      if (!id) return;
 
-  // If animal not found, redirect to catalog
-  if (!animal) {
-    navigate('/animals');
-    return null;
+      try {
+        setLoading(true);
+        
+        const { data, error } = await supabase
+          .from('animals')
+          .select('*')
+          .eq('id', id)
+          .single();
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (data) {
+          // Converter fotos do formato JSONB para string[]
+          const animalWithParsedPhotos: Animal = {
+            ...data,
+            photos: parsePhotos(data.photos)
+          };
+          
+          setAnimal(animalWithParsedPhotos);
+        } else {
+          toast({
+            title: "Animal não encontrado",
+            description: "Não foi possível encontrar as informações deste animal.",
+            variant: "destructive"
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar detalhes do animal:', error);
+        toast({
+          title: "Erro",
+          description: "Ocorreu um problema ao carregar os detalhes do animal.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnimalDetails();
+  }, [id, toast]);
+
+  const handleNextPhoto = () => {
+    if (animal && currentPhotoIndex < animal.photos.length - 1) {
+      setCurrentPhotoIndex(currentPhotoIndex + 1);
+    }
+  };
+
+  const handlePrevPhoto = () => {
+    if (currentPhotoIndex > 0) {
+      setCurrentPhotoIndex(currentPhotoIndex - 1);
+    }
+  };
+
+  const handleAdoptionFormSuccess = () => {
+    setShowAdoptionForm(false);
+    setActiveTab("details");
+  };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-16 flex justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-paraiso-blue"></div>
+      </div>
+    );
   }
 
-  // Status Badge color
+  if (!animal) {
+    return (
+      <div className="container mx-auto px-4 py-16">
+        <Card className="max-w-3xl mx-auto p-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-700 mb-4">Animal não encontrado</h1>
+            <p className="text-gray-600 mb-8">
+              Não foi possível encontrar o animal solicitado. Ele pode ter sido adotado ou removido.
+            </p>
+            <Button asChild className="bg-paraiso-blue hover:bg-blue-800">
+              <Link to="/animals">Ver outros animais</Link>
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'available':
+        return 'Disponível para adoção';
+      case 'pending':
+        return 'Em processo de adoção';
+      case 'adopted':
+        return 'Adotado';
+      default:
+        return status;
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available':
@@ -52,233 +139,206 @@ const AnimalDetails = () => {
       case 'adopted':
         return 'bg-blue-100 text-blue-800';
       default:
-        return 'bg-gray-100';
+        return 'bg-gray-100 text-gray-800';
     }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'available':
-        return 'Disponível';
-      case 'pending':
-        return 'Em processo';
-      case 'adopted':
-        return 'Adotado';
-      default:
-        return status;
-    }
-  };
-
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Interesse registrado!",
-      description: "Logo entraremos em contato com você.",
-    });
-    setIsDialogOpen(false);
-  };
-
-  const handleNextPhoto = () => {
-    setCurrentPhotoIndex((currentPhotoIndex + 1) % animal.photos.length);
-  };
-
-  const handlePrevPhoto = () => {
-    setCurrentPhotoIndex((currentPhotoIndex - 1 + animal.photos.length) % animal.photos.length);
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12">
-      <div className="container mx-auto px-4">
-        <Link to="/animals" className="flex items-center text-paraiso-blue hover:underline mb-6">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Voltar para Catálogo
-        </Link>
-
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="md:flex">
-            {/* Photo Gallery */}
-            <div className="md:w-1/2 relative bg-gray-200">
-              <img 
-                src={animal.photos[currentPhotoIndex]} 
-                alt={animal.name} 
-                className="w-full h-full object-cover md:h-[500px]"
+    <div className="container mx-auto px-4 py-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div>
+          <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ minHeight: '400px' }}>
+            {animal.photos && animal.photos.length > 0 ? (
+              <img
+                src={animal.photos[currentPhotoIndex]}
+                alt={animal.name}
+                className="w-full h-full object-cover"
               />
-              {animal.photos.length > 1 && (
-                <>
-                  <button 
-                    onClick={handlePrevPhoto}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full opacity-70 hover:opacity-100"
-                  >
-                    ❮
-                  </button>
-                  <button 
-                    onClick={handleNextPhoto}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full opacity-70 hover:opacity-100"
-                  >
-                    ❯
-                  </button>
-                </>
-              )}
-
-              {/* Thumbnail navigation */}
-              {animal.photos.length > 1 && (
-                <div className="flex justify-center space-x-2 p-2 bg-white">
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">Sem foto disponível</p>
+              </div>
+            )}
+            
+            {animal.photos && animal.photos.length > 1 && (
+              <>
+                <button
+                  onClick={handlePrevPhoto}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white"
+                  disabled={currentPhotoIndex === 0}
+                >
+                  &lt;
+                </button>
+                <button
+                  onClick={handleNextPhoto}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white"
+                  disabled={currentPhotoIndex === animal.photos.length - 1}
+                >
+                  &gt;
+                </button>
+                
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
                   {animal.photos.map((_, index) => (
-                    <button 
-                      key={index} 
+                    <button
+                      key={index}
                       onClick={() => setCurrentPhotoIndex(index)}
-                      className={`h-2 w-2 rounded-full ${index === currentPhotoIndex ? 'bg-paraiso-blue' : 'bg-gray-300'}`}
-                    />
+                      className={`w-2 h-2 rounded-full ${
+                        index === currentPhotoIndex ? 'bg-paraiso-blue' : 'bg-white/60'
+                      }`}
+                    ></button>
                   ))}
                 </div>
-              )}
+              </>
+            )}
+          </div>
+          
+          {animal.photos && animal.photos.length > 1 && (
+            <div className="grid grid-cols-6 gap-2 mt-2">
+              {animal.photos.map((photo, index) => (
+                <div
+                  key={index}
+                  onClick={() => setCurrentPhotoIndex(index)}
+                  className={`cursor-pointer rounded overflow-hidden ${
+                    index === currentPhotoIndex ? 'ring-2 ring-paraiso-blue' : ''
+                  }`}
+                >
+                  <img src={photo} alt={`${animal.name} - foto ${index + 1}`} className="w-full h-16 object-cover" />
+                </div>
+              ))}
             </div>
-
-            {/* Details */}
-            <div className="md:w-1/2 p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h1 className="text-3xl font-bold text-paraiso-blue">{animal.name}</h1>
-                <Badge className={`${getStatusColor(animal.status)}`}>
-                  {getStatusText(animal.status)}
-                </Badge>
-              </div>
-
-              <div className="mb-6 space-y-2">
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 mr-2 text-gray-500" />
-                  <span className="text-gray-700">{animal.location}</span>
-                </div>
-                
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <Badge variant="outline">{animal.sex === 'male' ? 'Macho' : 'Fêmea'}</Badge>
-                  <Badge variant="outline">{animal.age}</Badge>
-                  <Badge variant="outline">
-                    {animal.species === 'dog' ? 'Cão' : 
-                     animal.species === 'cat' ? 'Gato' : 
-                     animal.species === 'horse' ? 'Cavalo' : 'Outro'}
-                  </Badge>
-                  <Badge variant="outline">
-                    {animal.size === 'small' ? 'Pequeno' : 
-                     animal.size === 'medium' ? 'Médio' : 'Grande'}
-                  </Badge>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <h2 className="text-xl font-bold mb-2">Sobre {animal.name}</h2>
-                <p className="text-gray-700">{animal.description}</p>
-              </div>
-
-              <div className="space-y-4">
-                {animal.status === 'available' ? (
-                  <Button 
-                    onClick={() => setIsDialogOpen(true)} 
-                    className="w-full bg-paraiso-yellow text-paraiso-blue hover:bg-paraiso-blue hover:text-white"
-                  >
-                    <Heart className="mr-2 h-4 w-4" /> Quero Adotar este Animal
-                  </Button>
-                ) : (
-                  <Button disabled className="w-full">
-                    Animal não disponível para adoção
-                  </Button>
-                )}
-                
-                <Card className="p-4 bg-gray-50">
-                  <h3 className="font-bold mb-2">Precisa de mais informações?</h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <Phone className="h-4 w-4 mr-2 text-paraiso-blue" />
-                      <span>(21) 97609-0612</span>
+          )}
+        </div>
+        
+        <div>
+          <div className="flex justify-between items-start mb-4">
+            <h1 className="text-3xl font-bold text-paraiso-blue">{animal.name}</h1>
+            <Badge className={getStatusColor(animal.status)}>
+              {getStatusText(animal.status)}
+            </Badge>
+          </div>
+          
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="details">Detalhes</TabsTrigger>
+              <TabsTrigger value="adopt">Adoção</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="details">
+              <Card>
+                <CardContent className="p-6 space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Espécie</h3>
+                      <p className="text-gray-900">{animal.species === 'dog' ? 'Cachorro' : animal.species === 'cat' ? 'Gato' : animal.species === 'horse' ? 'Cavalo' : animal.species}</p>
                     </div>
-                    <div className="flex items-center">
-                      <Mail className="h-4 w-4 mr-2 text-paraiso-blue" />
-                      <span>contato@paraisodosfocinhos.com.br</span>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Sexo</h3>
+                      <p className="text-gray-900">{animal.sex === 'male' ? 'Macho' : 'Fêmea'}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Idade</h3>
+                      <p className="text-gray-900">{animal.age}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Porte</h3>
+                      <p className="text-gray-900">
+                        {animal.size === 'small' ? 'Pequeno' : 
+                         animal.size === 'medium' ? 'Médio' : 
+                         animal.size === 'large' ? 'Grande' : animal.size}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Localização</h3>
+                      <p className="text-gray-900">{animal.location}</p>
                     </div>
                   </div>
-                </Card>
-              </div>
-            </div>
+                  
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 mb-2">Descrição</h3>
+                    <p className="text-gray-900 whitespace-pre-line">{animal.description}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="adopt">
+              <Card>
+                <CardContent className="p-6">
+                  {animal.status === 'available' ? (
+                    showAdoptionForm ? (
+                      <AdoptionForm 
+                        animalId={animal.id} 
+                        animalName={animal.name}
+                        onSuccess={handleAdoptionFormSuccess}
+                      />
+                    ) : (
+                      <div className="space-y-4">
+                        <h3 className="text-xl font-medium text-gray-900">Quer adotar {animal.name}?</h3>
+                        <p className="text-gray-600">
+                          Para iniciar o processo de adoção, preencha o formulário de interesse. 
+                          Nossa equipe entrará em contato para agendar uma visita e dar continuidade ao processo.
+                        </p>
+                        <div className="space-y-2">
+                          <h4 className="text-sm font-medium text-gray-700">O processo de adoção inclui:</h4>
+                          <ul className="list-disc pl-5 text-gray-600 text-sm">
+                            <li>Preenchimento do formulário de interesse</li>
+                            <li>Entrevista com nossa equipe</li>
+                            <li>Visita ao abrigo para conhecer o animal</li>
+                            <li>Assinatura do termo de adoção responsável</li>
+                          </ul>
+                        </div>
+                        <Button 
+                          className="w-full bg-paraiso-blue hover:bg-blue-800"
+                          onClick={() => setShowAdoptionForm(true)}
+                        >
+                          Quero adotar {animal.name}
+                        </Button>
+                      </div>
+                    )
+                  ) : (
+                    <div className="text-center py-6">
+                      <h3 className="text-xl font-medium text-gray-900 mb-2">
+                        {animal.status === 'adopted' ? 
+                          `${animal.name} já foi adotado!` : 
+                          `${animal.name} está em processo de adoção`}
+                      </h3>
+                      <p className="text-gray-600 mb-6">
+                        {animal.status === 'adopted' ? 
+                          'Este animal já encontrou um lar amoroso.' : 
+                          'Este animal está em processo de adoção no momento.'}
+                      </p>
+                      <Button asChild className="bg-paraiso-blue hover:bg-blue-800">
+                        <Link to="/animals">Ver outros animais disponíveis</Link>
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="mt-6 flex justify-between">
+            <Button 
+              variant="outline" 
+              asChild
+            >
+              <Link to="/animals">Voltar para lista</Link>
+            </Button>
+            
+            {animal.status === 'available' && !showAdoptionForm && activeTab !== 'adopt' && (
+              <Button 
+                className="bg-paraiso-blue hover:bg-blue-800"
+                onClick={() => {
+                  setActiveTab('adopt');
+                  setShowAdoptionForm(true);
+                }}
+              >
+                Quero adotar {animal.name}
+              </Button>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Interest Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Interesse em adotar {animal.name}</DialogTitle>
-            <DialogDescription>
-              Preencha o formulário abaixo e entraremos em contato para dar continuidade ao processo de adoção.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4 py-4">
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <Label htmlFor="name">Nome completo</Label>
-                  <Input 
-                    id="name" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleFormChange} 
-                    required 
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="email">E-mail</Label>
-                  <Input 
-                    id="email" 
-                    name="email" 
-                    type="email"
-                    value={formData.email} 
-                    onChange={handleFormChange} 
-                    required 
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="phone">Telefone</Label>
-                  <Input 
-                    id="phone" 
-                    name="phone" 
-                    value={formData.phone} 
-                    onChange={handleFormChange} 
-                    required 
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="message">Por que você quer adotar este animal?</Label>
-                  <Textarea 
-                    id="message" 
-                    name="message" 
-                    value={formData.message} 
-                    onChange={handleFormChange} 
-                    rows={4} 
-                    required 
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button type="button" variant="outline">Cancelar</Button>
-              </DialogClose>
-              <Button type="submit" className="bg-paraiso-blue">Enviar interesse</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

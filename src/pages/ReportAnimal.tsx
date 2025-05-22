@@ -21,9 +21,11 @@ import {
 } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const ReportAnimal = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     animalName: '',
     species: '',
@@ -58,29 +60,72 @@ const ReportAnimal = () => {
     }
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    toast({
-      title: "Relato enviado com sucesso!",
-      description: "Agradecemos por relatar este animal. Nossa equipe analisará as informações.",
-    });
-    
-    // Reset form
-    setFormData({
-      animalName: '',
-      species: '',
-      sex: '',
-      age: '',
-      size: '',
-      location: '',
-      description: '',
-      contactName: '',
-      contactPhone: '',
-      contactEmail: '',
-      canKeepTemporarily: 'no',
-      photos: null
-    });
+    try {
+      setIsSubmitting(true);
+      
+      // Salvar os dados no Supabase
+      const { data, error } = await supabase
+        .from('animal_reports')
+        .insert([
+          {
+            animal_name: formData.animalName,
+            species: formData.species,
+            sex: formData.sex,
+            age: formData.age,
+            size: formData.size,
+            location: formData.location,
+            description: formData.description,
+            can_keep_temporarily: formData.canKeepTemporarily,
+            contact_name: formData.contactName,
+            contact_phone: formData.contactPhone,
+            contact_email: formData.contactEmail
+          }
+        ]);
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast({
+        title: "Relato enviado com sucesso!",
+        description: "Agradecemos por relatar este animal. Nossa equipe analisará as informações.",
+      });
+      
+      // Reset form
+      setFormData({
+        animalName: '',
+        species: '',
+        sex: '',
+        age: '',
+        size: '',
+        location: '',
+        description: '',
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
+        canKeepTemporarily: 'no',
+        photos: null
+      });
+      
+      // Reset file input
+      const fileInput = document.getElementById('photos') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+      
+    } catch (error) {
+      console.error('Erro ao enviar relato:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao enviar relato",
+        description: "Ocorreu um erro ao enviar seu relato. Por favor, tente novamente.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

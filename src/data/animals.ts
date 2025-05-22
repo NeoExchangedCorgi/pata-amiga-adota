@@ -2,16 +2,19 @@
 export interface Animal {
   id: string;
   name: string;
-  species: 'dog' | 'cat' | 'horse' | 'other';
-  sex: 'male' | 'female';
+  species: string;
+  sex: string;
   age: string;
-  size: 'small' | 'medium' | 'large';
+  size: string;
   description: string;
-  photos: string[];
   location: string;
-  status: 'available' | 'pending' | 'adopted';
+  photos: string[];
+  status: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
+// Esta lista será substituída por dados do Supabase
 export const animals: Animal[] = [
   {
     id: '1',

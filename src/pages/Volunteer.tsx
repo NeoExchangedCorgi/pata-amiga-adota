@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,9 +20,11 @@ import {
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Volunteer = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -46,7 +49,7 @@ const Volunteer = () => {
     setFormData(prev => ({ ...prev, agreeTerms: checked }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.agreeTerms) {
@@ -58,22 +61,55 @@ const Volunteer = () => {
       return;
     }
     
-    toast({
-      title: "Formulário enviado!",
-      description: "Agradecemos seu interesse em ser voluntário. Entraremos em contato em breve.",
-    });
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      age: '',
-      availability: '',
-      experience: '',
-      reason: '',
-      agreeTerms: false
-    });
+    try {
+      setIsSubmitting(true);
+      
+      // Salvar os dados no Supabase
+      const { data, error } = await supabase
+        .from('volunteer_applications')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            age: formData.age,
+            availability: formData.availability,
+            experience: formData.experience,
+            reason: formData.reason
+          }
+        ]);
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast({
+        title: "Formulário enviado!",
+        description: "Agradecemos seu interesse em ser voluntário. Entraremos em contato em breve.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        age: '',
+        availability: '',
+        experience: '',
+        reason: '',
+        agreeTerms: false
+      });
+      
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro ao enviar formulário",
+        description: "Ocorreu um erro ao enviar seu formulário. Por favor, tente novamente.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
