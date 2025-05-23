@@ -66,7 +66,7 @@ export function useReportAnimalForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('Iniciando envio do formulário');
+    console.log('Iniciando envio do formulário de animal');
     
     if (!formData.species || !formData.location || !formData.description || 
         !formData.contactName || !formData.contactPhone || !formData.contactEmail) {
@@ -107,7 +107,8 @@ export function useReportAnimalForm() {
         }
       }
       
-      console.log('Enviando dados para Supabase:', {
+      // Preparando dados para enviar ao Supabase
+      const reportData = {
         animal_name: formData.animalName,
         species: formData.species,
         sex: formData.sex,
@@ -119,28 +120,16 @@ export function useReportAnimalForm() {
         contact_name: formData.contactName,
         contact_phone: formData.contactPhone,
         contact_email: formData.contactEmail,
-        photos: photoUrls
-      });
+        photos: photoUrls,
+        status: 'pending'
+      };
       
-      // Save data to Supabase
+      console.log('Enviando dados para Supabase (animal_reports):', reportData);
+      
+      // Save data to Supabase na tabela animal_reports
       const { data, error } = await supabase
         .from('animal_reports')
-        .insert([
-          {
-            animal_name: formData.animalName,
-            species: formData.species,
-            sex: formData.sex,
-            age: formData.age,
-            size: formData.size,
-            location: formData.location,
-            description: formData.description,
-            can_keep_temporarily: formData.canKeepTemporarily,
-            contact_name: formData.contactName,
-            contact_phone: formData.contactPhone,
-            contact_email: formData.contactEmail,
-            photos: photoUrls
-          }
-        ]);
+        .insert([reportData]);
       
       if (error) {
         console.error('Erro detalhado ao inserir dados:', error);

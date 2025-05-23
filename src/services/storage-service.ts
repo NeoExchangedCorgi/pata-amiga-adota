@@ -45,7 +45,7 @@ export const uploadPhoto = async (file: File, path: string): Promise<string | nu
   try {
     console.log('Iniciando upload da foto:', path);
     
-    // Fazer upload do arquivo sem verificar o bucket
+    // Fazer upload do arquivo para o bucket existente
     const { error: uploadError } = await supabase.storage
       .from('animal-photos')
       .upload(path, file, {
