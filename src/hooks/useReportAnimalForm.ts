@@ -66,6 +66,18 @@ export function useReportAnimalForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('Iniciando envio do formulário');
+    
+    if (!formData.species || !formData.location || !formData.description || 
+        !formData.contactName || !formData.contactPhone || !formData.contactEmail) {
+      toast({
+        variant: "destructive",
+        title: "Campos obrigatórios",
+        description: "Por favor, preencha todos os campos obrigatórios.",
+      });
+      return;
+    }
+    
     try {
       setIsSubmitting(true);
       
@@ -82,10 +94,12 @@ export function useReportAnimalForm() {
           const filePath = `animal-reports/${fileName}`;
           
           try {
+            console.log('Tentando fazer upload da foto:', filePath);
             // Usar a função uploadPhoto do storage-service
             const photoUrl = await uploadPhoto(photo, filePath);
             if (photoUrl) {
               photoUrls.push(photoUrl);
+              console.log('Upload bem-sucedido:', photoUrl);
             }
           } catch (uploadError) {
             console.error('Erro ao fazer upload da foto:', uploadError);
@@ -105,7 +119,7 @@ export function useReportAnimalForm() {
         contact_name: formData.contactName,
         contact_phone: formData.contactPhone,
         contact_email: formData.contactEmail,
-        photos: photoUrls.length > 0 ? photoUrls : null
+        photos: photoUrls
       });
       
       // Save data to Supabase
@@ -129,9 +143,11 @@ export function useReportAnimalForm() {
         ]);
       
       if (error) {
-        console.error('Erro detalhado:', error);
+        console.error('Erro detalhado ao inserir dados:', error);
         throw error;
       }
+      
+      console.log('Dados inseridos com sucesso:', data);
       
       toast({
         title: "Relato enviado com sucesso!",

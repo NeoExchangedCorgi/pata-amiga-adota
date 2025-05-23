@@ -4,7 +4,13 @@ import { supabase } from '@/integrations/supabase/client';
 export const createBucketIfNotExists = async () => {
   try {
     // Verificar se o bucket já existe
-    const { data: buckets } = await supabase.storage.listBuckets();
+    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    
+    if (bucketsError) {
+      console.error('Erro ao listar buckets:', bucketsError);
+      return false;
+    }
+    
     const bucketExists = buckets?.some(bucket => bucket.name === 'animal-photos');
     
     if (!bucketExists) {
@@ -23,6 +29,8 @@ export const createBucketIfNotExists = async () => {
       } catch (err) {
         console.error('Erro ao criar bucket:', err);
       }
+    } else {
+      console.log('Bucket já existe, não é necessário criar');
     }
     
     return true;
@@ -37,19 +45,16 @@ export const uploadPhoto = async (file: File, path: string): Promise<string | nu
   try {
     console.log('Iniciando upload da foto:', path);
     
-    // Verificar se o bucket existe
-    await createBucketIfNotExists();
-    
-    // Fazer upload do arquivo
-    const { error } = await supabase.storage
+    // Fazer upload do arquivo sem verificar o bucket
+    const { error: uploadError } = await supabase.storage
       .from('animal-photos')
       .upload(path, file, {
         cacheControl: '3600',
         upsert: true
       });
       
-    if (error) {
-      console.error('Erro ao fazer upload da foto:', error);
+    if (uploadError) {
+      console.error('Erro ao fazer upload da foto:', uploadError);
       return null;
     }
     

@@ -20,7 +20,9 @@ function App() {
     // Inicializa o bucket para armazenar fotos de animais
     const initStorage = async () => {
       try {
-        await createBucketIfNotExists();
+        console.log('Tentando criar ou verificar bucket...');
+        const result = await createBucketIfNotExists();
+        console.log('Resultado da verificação de bucket:', result);
       } catch (error) {
         console.error('Erro ao inicializar storage:', error);
       }

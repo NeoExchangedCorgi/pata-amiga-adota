@@ -61,17 +61,16 @@ const ReportAnimal = () => {
                   handleInputChange={handleInputChange}
                   handleRadioChange={handleRadioChange}
                 />
+                
+                <Button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-paraiso-blue hover:bg-blue-800 dark:bg-blue-900 dark:hover:bg-blue-800"
+                >
+                  {isSubmitting ? 'Enviando...' : 'Enviar Relato'}
+                </Button>
               </form>
             </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={handleSubmit} 
-                disabled={isSubmitting}
-                className="w-full bg-paraiso-blue hover:bg-blue-800 dark:bg-blue-900 dark:hover:bg-blue-800"
-              >
-                {isSubmitting ? 'Enviando...' : 'Enviar Relato'}
-              </Button>
-            </CardFooter>
           </Card>
           
           <WhatHappensNext />
