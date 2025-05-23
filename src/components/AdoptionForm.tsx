@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,6 +32,7 @@ const AdoptionForm = ({ animalId, animalName, onSuccess }: AdoptionFormProps) =>
     
     try {
       setIsSubmitting(true);
+      console.log("Enviando solicitação de adoção para:", animalId);
       
       // Validação básica
       if (!formData.name || !formData.email || !formData.phone) {
@@ -52,7 +52,10 @@ const AdoptionForm = ({ animalId, animalName, onSuccess }: AdoptionFormProps) =>
           }
         ]);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Erro detalhado:', error);
+        throw error;
+      }
       
       toast({
         title: "Solicitação enviada",

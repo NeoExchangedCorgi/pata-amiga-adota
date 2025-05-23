@@ -1,41 +1,41 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import AnimalDetails from "./pages/AnimalDetails";
-import AnimalCatalog from "./pages/AnimalCatalog";
-import About from "./pages/About";
-import ReportAnimal from "./pages/ReportAnimal";
-import Volunteer from "./pages/Volunteer";
-import Layout from "./components/Layout";
+import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Layout from '@/components/Layout';
+import Index from '@/pages/Index';
+import About from '@/pages/About';
+import AnimalCatalog from '@/pages/AnimalCatalog';
+import AnimalDetails from '@/pages/AnimalDetails';
+import ReportAnimal from '@/pages/ReportAnimal';
+import Volunteer from '@/pages/Volunteer';
+import NotFound from '@/pages/NotFound';
+import { Toaster } from '@/components/ui/toaster';
+import { createBucketIfNotExists } from '@/services/storage-service';
 
-const queryClient = new QueryClient();
+import './App.css';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout><Index /></Layout>} />
-            <Route path="/animals" element={<Layout><AnimalCatalog /></Layout>} />
-            <Route path="/animals/:id" element={<Layout><AnimalDetails /></Layout>} />
-            <Route path="/about" element={<Layout><About /></Layout>} />
-            <Route path="/report" element={<Layout><ReportAnimal /></Layout>} />
-            <Route path="/volunteer" element={<Layout><Volunteer /></Layout>} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+function App() {
+  useEffect(() => {
+    // Inicializa o bucket para armazenar fotos de animais
+    createBucketIfNotExists();
+  }, []);
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Index />} />
+          <Route path="about" element={<About />} />
+          <Route path="animals" element={<AnimalCatalog />} />
+          <Route path="animals/:id" element={<AnimalDetails />} />
+          <Route path="report" element={<ReportAnimal />} />
+          <Route path="volunteer" element={<Volunteer />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      <Toaster />
+    </>
+  );
+}
 
 export default App;

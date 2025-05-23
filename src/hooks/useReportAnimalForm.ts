@@ -63,6 +63,38 @@ export function useReportAnimalForm() {
     try {
       setIsSubmitting(true);
       
+      let photoUrls: string[] = [];
+      
+      // Upload photos if they exist
+      if (formData.photos && formData.photos.length > 0) {
+        const timestamp = new Date().getTime();
+        
+        for (let i = 0; i < formData.photos.length; i++) {
+          const photo = formData.photos[i];
+          const fileExt = photo.name.split('.').pop();
+          const fileName = `${timestamp}-${i}.${fileExt}`;
+          const filePath = `animal-reports/${fileName}`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from('animal-photos')
+            .upload(filePath, photo);
+            
+          if (uploadError) {
+            console.error('Erro ao fazer upload da foto:', uploadError);
+            continue;
+          }
+          
+          // Get public URL
+          const { data } = supabase.storage
+            .from('animal-photos')
+            .getPublicUrl(filePath);
+            
+          if (data && data.publicUrl) {
+            photoUrls.push(data.publicUrl);
+          }
+        }
+      }
+      
       // Save data to Supabase
       const { data, error } = await supabase
         .from('animal_reports')
@@ -78,11 +110,13 @@ export function useReportAnimalForm() {
             can_keep_temporarily: formData.canKeepTemporarily,
             contact_name: formData.contactName,
             contact_phone: formData.contactPhone,
-            contact_email: formData.contactEmail
+            contact_email: formData.contactEmail,
+            photos: photoUrls.length > 0 ? photoUrls : null
           }
         ]);
       
       if (error) {
+        console.error('Erro detalhado:', error);
         throw error;
       }
       

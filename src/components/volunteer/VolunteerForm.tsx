@@ -74,6 +74,7 @@ export function VolunteerForm() {
     
     try {
       setIsSubmitting(true);
+      console.log("Enviando dados para o Supabase:", formData);
       
       // Salvar os dados no Supabase
       const { data, error } = await supabase
@@ -91,6 +92,7 @@ export function VolunteerForm() {
         ]);
       
       if (error) {
+        console.error('Erro detalhado:', error);
         throw error;
       }
       

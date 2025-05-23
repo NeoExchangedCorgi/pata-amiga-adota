@@ -9,7 +9,191 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      adoption_requests: {
+        Row: {
+          animal_id: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          animal_id: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          animal_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "adoption_requests_animal_id_fkey"
+            columns: ["animal_id"]
+            isOneToOne: false
+            referencedRelation: "animals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      animal_reports: {
+        Row: {
+          age: string | null
+          animal_name: string | null
+          can_keep_temporarily: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          sex: string | null
+          size: string | null
+          species: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          age?: string | null
+          animal_name?: string | null
+          can_keep_temporarily?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          sex?: string | null
+          size?: string | null
+          species: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          age?: string | null
+          animal_name?: string | null
+          can_keep_temporarily?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          sex?: string | null
+          size?: string | null
+          species?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      animals: {
+        Row: {
+          age: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          name: string
+          photos: string[] | null
+          sex: string
+          size: string
+          species: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          age: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          name: string
+          photos?: string[] | null
+          sex: string
+          size: string
+          species: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          age?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          name?: string
+          photos?: string[] | null
+          sex?: string
+          size?: string
+          species?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      volunteer_applications: {
+        Row: {
+          age: string
+          availability: string
+          created_at: string
+          email: string
+          experience: string
+          id: string
+          name: string
+          phone: string
+          reason: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          age: string
+          availability: string
+          created_at?: string
+          email: string
+          experience: string
+          id?: string
+          name: string
+          phone: string
+          reason: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          age?: string
+          availability?: string
+          created_at?: string
+          email?: string
+          experience?: string
+          id?: string
+          name?: string
+          phone?: string
+          reason?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
