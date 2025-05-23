@@ -17,6 +17,7 @@ const ReportAnimal = () => {
   const {
     formData,
     isSubmitting,
+    previewUrls,
     handleInputChange,
     handleSelectChange,
     handleRadioChange,
@@ -25,11 +26,11 @@ const ReportAnimal = () => {
   } = useReportAnimalForm();
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="bg-paraiso-lightblue py-16">
+    <div className="bg-gray-50 dark:bg-black min-h-screen w-full">
+      <div className="bg-paraiso-lightblue dark:bg-black py-16 w-full">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold text-paraiso-blue mb-4">Encontrei um Animal</h1>
-          <p className="text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold text-paraiso-blue dark:text-white mb-4">Encontrei um Animal</h1>
+          <p className="text-lg max-w-2xl mx-auto dark:text-gray-300">
             Ajude-nos a resgatar e cuidar de um animal que você encontrou.
             Preencha o formulário com o máximo de informações possíveis.
           </p>
@@ -40,8 +41,8 @@ const ReportAnimal = () => {
         <div className="max-w-3xl mx-auto">
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl text-paraiso-blue">Formulário de Relato</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl text-paraiso-blue dark:text-white">Formulário de Relato</CardTitle>
+              <CardDescription className="dark:text-gray-300">
                 Informe os detalhes sobre o animal encontrado para ajudarmos no resgate
               </CardDescription>
             </CardHeader>
@@ -49,6 +50,7 @@ const ReportAnimal = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <AnimalInfoForm
                   formData={formData}
+                  previewUrls={previewUrls}
                   handleInputChange={handleInputChange}
                   handleSelectChange={handleSelectChange}
                   handleFileChange={handleFileChange}
@@ -65,7 +67,7 @@ const ReportAnimal = () => {
               <Button 
                 onClick={handleSubmit} 
                 disabled={isSubmitting}
-                className="w-full bg-paraiso-blue hover:bg-blue-800"
+                className="w-full bg-paraiso-blue hover:bg-blue-800 dark:bg-blue-900 dark:hover:bg-blue-800"
               >
                 {isSubmitting ? 'Enviando...' : 'Enviar Relato'}
               </Button>

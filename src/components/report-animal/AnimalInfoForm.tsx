@@ -21,6 +21,7 @@ type AnimalInfoFormProps = {
     description: string;
     photos: FileList | null;
   };
+  previewUrls?: string[];
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSelectChange: (name: string, value: string) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -28,6 +29,7 @@ type AnimalInfoFormProps = {
 
 export function AnimalInfoForm({ 
   formData, 
+  previewUrls = [],
   handleInputChange, 
   handleSelectChange, 
   handleFileChange 
@@ -160,6 +162,26 @@ export function AnimalInfoForm({
         <p className="text-xs text-gray-500 mt-1">
           Fotos ajudam muito na identificação e avaliação do estado do animal.
         </p>
+        
+        {previewUrls && previewUrls.length > 0 && (
+          <div className="mt-4">
+            <Label>Imagens selecionadas</Label>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2">
+              {previewUrls.map((url, index) => (
+                <div 
+                  key={index}
+                  className="relative rounded-md overflow-hidden h-32 border border-gray-300"
+                >
+                  <img 
+                    src={url} 
+                    alt={`Pré-visualização ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

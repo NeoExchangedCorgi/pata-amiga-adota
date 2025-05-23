@@ -11,17 +11,26 @@ import Volunteer from '@/pages/Volunteer';
 import NotFound from '@/pages/NotFound';
 import { Toaster } from '@/components/ui/toaster';
 import { createBucketIfNotExists } from '@/services/storage-service';
+import { ThemeProvider } from 'next-themes';
 
 import './App.css';
 
 function App() {
   useEffect(() => {
     // Inicializa o bucket para armazenar fotos de animais
-    createBucketIfNotExists();
+    const initStorage = async () => {
+      try {
+        await createBucketIfNotExists();
+      } catch (error) {
+        console.error('Erro ao inicializar storage:', error);
+      }
+    };
+    
+    initStorage();
   }, []);
 
   return (
-    <>
+    <ThemeProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Index />} />
@@ -34,7 +43,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster />
-    </>
+    </ThemeProvider>
   );
 }
 

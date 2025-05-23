@@ -18,9 +18,9 @@ const Layout: React.FC = () => {
   }, [theme]);
   
   return (
-    <div className={`min-h-screen flex flex-col bg-white dark:bg-black transition-colors duration-300`}>
+    <div className="min-h-screen flex flex-col bg-white dark:bg-black transition-colors duration-300 w-full">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow w-full">
         <Outlet />
       </main>
       <Footer />

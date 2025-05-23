@@ -9,16 +9,20 @@ export const createBucketIfNotExists = async () => {
     
     if (!bucketExists) {
       // Criar o bucket se não existir
-      const { data, error } = await supabase.storage.createBucket('animal-photos', {
-        public: true // Bucket público para facilitar o acesso às imagens
-      });
-      
-      if (error) {
-        console.error('Erro ao criar bucket:', error);
-        return false;
+      try {
+        const { data, error } = await supabase.storage.createBucket('animal-photos', {
+          public: true // Bucket público para facilitar o acesso às imagens
+        });
+        
+        if (error) {
+          console.error('Erro ao criar bucket:', error);
+          return false;
+        }
+        
+        console.log('Bucket criado com sucesso:', data);
+      } catch (err) {
+        console.error('Erro ao criar bucket:', err);
       }
-      
-      console.log('Bucket criado com sucesso:', data);
     }
     
     return true;
@@ -31,9 +35,18 @@ export const createBucketIfNotExists = async () => {
 // Função para fazer upload de uma foto
 export const uploadPhoto = async (file: File, path: string): Promise<string | null> => {
   try {
+    console.log('Iniciando upload da foto:', path);
+    
+    // Verificar se o bucket existe
+    await createBucketIfNotExists();
+    
+    // Fazer upload do arquivo
     const { error } = await supabase.storage
       .from('animal-photos')
-      .upload(path, file);
+      .upload(path, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
       
     if (error) {
       console.error('Erro ao fazer upload da foto:', error);
@@ -45,6 +58,7 @@ export const uploadPhoto = async (file: File, path: string): Promise<string | nu
       .from('animal-photos')
       .getPublicUrl(path);
       
+    console.log('Upload concluído com sucesso:', data?.publicUrl);
     return data?.publicUrl || null;
   } catch (error) {
     console.error('Erro ao processar upload:', error);

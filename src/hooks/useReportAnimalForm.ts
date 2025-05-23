@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { uploadPhoto } from '@/services/storage-service';
 
 type FormData = {
   animalName: string;
@@ -37,6 +38,7 @@ export function useReportAnimalForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -52,8 +54,12 @@ export function useReportAnimalForm() {
   };
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length > 0) {
       setFormData(prev => ({ ...prev, photos: e.target.files }));
+      
+      // Criar URLs para pré-visualização das imagens
+      const urls = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      setPreviewUrls(urls);
     }
   };
   
@@ -75,25 +81,32 @@ export function useReportAnimalForm() {
           const fileName = `${timestamp}-${i}.${fileExt}`;
           const filePath = `animal-reports/${fileName}`;
           
-          const { error: uploadError } = await supabase.storage
-            .from('animal-photos')
-            .upload(filePath, photo);
-            
-          if (uploadError) {
+          try {
+            // Usar a função uploadPhoto do storage-service
+            const photoUrl = await uploadPhoto(photo, filePath);
+            if (photoUrl) {
+              photoUrls.push(photoUrl);
+            }
+          } catch (uploadError) {
             console.error('Erro ao fazer upload da foto:', uploadError);
-            continue;
-          }
-          
-          // Get public URL
-          const { data } = supabase.storage
-            .from('animal-photos')
-            .getPublicUrl(filePath);
-            
-          if (data && data.publicUrl) {
-            photoUrls.push(data.publicUrl);
           }
         }
       }
+      
+      console.log('Enviando dados para Supabase:', {
+        animal_name: formData.animalName,
+        species: formData.species,
+        sex: formData.sex,
+        age: formData.age,
+        size: formData.size,
+        location: formData.location,
+        description: formData.description,
+        can_keep_temporarily: formData.canKeepTemporarily,
+        contact_name: formData.contactName,
+        contact_phone: formData.contactPhone,
+        contact_email: formData.contactEmail,
+        photos: photoUrls.length > 0 ? photoUrls : null
+      });
       
       // Save data to Supabase
       const { data, error } = await supabase
@@ -111,7 +124,7 @@ export function useReportAnimalForm() {
             contact_name: formData.contactName,
             contact_phone: formData.contactPhone,
             contact_email: formData.contactEmail,
-            photos: photoUrls.length > 0 ? photoUrls : null
+            photos: photoUrls
           }
         ]);
       
@@ -127,6 +140,7 @@ export function useReportAnimalForm() {
       
       // Reset form
       setFormData(initialFormData);
+      setPreviewUrls([]);
       
       // Reset file input
       const fileInput = document.getElementById('photos') as HTMLInputElement;
@@ -149,6 +163,7 @@ export function useReportAnimalForm() {
   return {
     formData,
     isSubmitting,
+    previewUrls,
     handleInputChange,
     handleSelectChange,
     handleRadioChange,
